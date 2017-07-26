@@ -12,7 +12,7 @@ CREATE TABLE products (
 );
 
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("bone club replica","Rainbow",7,26);
+	VALUES("bone club replica","Rainbow",7.75,26);
     
 INSERT INTO products (product_name,department_name,price,stock_quantity)
 	VALUES("football patch","Rainbow",1,30);
@@ -41,7 +41,4 @@ INSERT INTO products (product_name,department_name,price,stock_quantity)
 INSERT INTO products (product_name,department_name,price,stock_quantity)
 	VALUES("hair tie","Rainbow",2,15);
     
--- SELECT * FROM products;
-    
-
-    
+SELECT * FROM products;
