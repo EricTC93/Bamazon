@@ -18,12 +18,22 @@ var commandList = {
 	name:"commnad"
 }
 
+var productList = [];
+var productIds = [];
+
 connection.connect(function(err) {
 	if (err) throw err;
 	console.log("connected as id " + connection.threadId);
-	inquirer.prompt(commandList).then(selectCommand);
+	getInventory();
 });
 
+function getInventory() {
+	connection.query("SELECT * FROM products", function(err, res) {
+		if (err) throw err;
+		productList = res;
+		return inquirer.prompt(commandList).then(selectCommand);
+	});
+}
 
 function selectCommand(res) {
 	switch(res.commnad) {
@@ -36,6 +46,7 @@ function selectCommand(res) {
 			break;
 		
 		case "Add to Inventory":
+			return productToAdd();
 			break;
 		
 		case "Add New Product":
@@ -70,6 +81,7 @@ function listProducts() {
 function listLowInventory() {
 	connection.query("SELECT * FROM products", function(err, res) {
 		if (err) throw err;
+
 		productList = res;
 
 		console.log("\n-----------------------------------")
@@ -83,9 +95,63 @@ function listLowInventory() {
 					"  " + productList[i].stock_quantity + " left\n" + 
 					"-----------------------------------");
 			}
-			
+
 		}
 
 		return;
 	});
+}
+
+function productToAdd() {
+
+	for(var i = 0; i<productList.length; i++) {
+		productIds.push(productList[i].item_id + "");
+	}
+
+	var managerQues = [{
+		type:"list",
+		message:"What is the id of the product you want to add inventory to?",
+		choices:productIds,
+		name:"productSelected"
+	},{
+		type:"input",
+		message:"How many would you like to add?",
+		name:"quantity"
+	}];
+
+	inquirer.prompt(managerQues).then(addInventory);
+}
+
+
+function addInventory(res) {
+	for(var i = 0; i<productList.length; i++) {
+		if(res.productSelected == productList[i].item_id) {
+			var quantityAdd = parseInt(res.quantity);
+			var inStock = parseInt(productList[i].stock_quantity);
+
+			inStock+=quantityAdd;
+
+			productList[i].stock_quantity = inStock;
+			console.log("Iventory Change Successful");
+
+			return updateStockQuantity(productList[i]);
+		}
+	}
+}
+
+function updateStockQuantity(item) {
+
+	connection.query("UPDATE products SET ? WHERE ?",
+	[{
+		stock_quantity: item.stock_quantity
+    },{
+        item_id: item.item_id
+    }], 
+
+    function(error) {
+    	if (error) throw err;
+    	console.log("Stock Updated");
+    });
+
+    return;
 }

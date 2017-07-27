@@ -11,6 +11,7 @@ var connection = mysql.createConnection({
 	database: "bamazon"
 });
 
+var productList = [];
 var productIds = [];
 
 connection.connect(function(err) {
@@ -23,6 +24,7 @@ function productsToPurchase() {
 	connection.query("SELECT * FROM products", function(err, res) {
 		if (err) throw err;
 		// console.log(res);
+
 		productList = res;
 
 		console.log("\n-----------------------------------")
@@ -67,7 +69,7 @@ function makePurchase (res) {
 			inStock-=quantityReq;
 			// console.log(inStock);
 			productList[i].stock_quantity = inStock;
-			console.log("Purchase Successfull");
+			console.log("Purchase Successful");
 			// console.log(productList[i]);
 			return updateStockQuantity(productList[i]);
 		}
