@@ -16,10 +16,10 @@ var productIds = [];
 connection.connect(function(err) {
 	if (err) throw err;
 	console.log("connected as id " + connection.threadId);
-	listProducts();
+	productsToPurchase();
 });
 
-function listProducts() {
+function productsToPurchase() {
 	connection.query("SELECT * FROM products", function(err, res) {
 		if (err) throw err;
 		// console.log(res);
@@ -36,7 +36,7 @@ function listProducts() {
 				"-----------------------------------");
 		}
 
-		console.log(productIds);
+		// console.log(productIds);
 
 		var customerQues = [{
 			type:"list",
