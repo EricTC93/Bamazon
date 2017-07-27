@@ -11,7 +11,7 @@ var connection = mysql.createConnection({
 	database: "bamazon"
 });
 
-var productNames = [];
+var productIds = [];
 
 connection.connect(function(err) {
 	if (err) throw err;
@@ -27,7 +27,7 @@ function listProducts() {
 
 		console.log("\n-----------------------------------")
 		for(var i = 0; i<productList.length; i++) {
-			productNames.push(productList[i].product_name);
+			productIds.push(productList[i].item_id + "");
 			console.log("Id:" + productList[i].item_id +
 				" " + productList[i].product_name + 
 				" from " + productList[i].department_name + "\n");
@@ -36,10 +36,12 @@ function listProducts() {
 				"-----------------------------------");
 		}
 
+		console.log(productIds);
+
 		var customerQues = [{
 			type:"list",
-			message:"What product do you want to buy?",
-			choices:productNames,
+			message:"What is the id of the product you want to buy?",
+			choices:productIds,
 			name:"productSelected"
 		},{
 			type:"input",
@@ -53,7 +55,7 @@ function listProducts() {
 
 function makePurchase (res) {
 	for(var i = 0; i<productList.length; i++) {
-		if(res.productSelected === productList[i].product_name) {
+		if(res.productSelected == productList[i].item_id) {
 			var quantityReq = parseInt(res.quantity);
 			var inStock = parseInt(productList[i].stock_quantity);
 
