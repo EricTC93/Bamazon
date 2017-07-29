@@ -46,10 +46,11 @@ function selectCommand(res) {
 			break;
 		
 		case "Add to Inventory":
-			return productToAdd();
+			return inventoryToAdd();
 			break;
 		
 		case "Add New Product":
+			return createProduct();
 			break;
 		
 		default:
@@ -102,7 +103,7 @@ function listLowInventory() {
 	});
 }
 
-function productToAdd() {
+function inventoryToAdd() {
 
 	for(var i = 0; i<productList.length; i++) {
 		productIds.push(productList[i].item_id + "");
@@ -148,10 +149,44 @@ function updateStockQuantity(item) {
         item_id: item.item_id
     }], 
 
-    function(error) {
-    	if (error) throw err;
+    function(err) {
+    	if (err) throw err;
     	console.log("Stock Updated");
     });
 
     return;
+}
+
+function createProduct() {
+	var productQues = [{
+		type:"input",
+		message:"What's the name of the product?",
+		name:"product_name"
+	},{
+		type:"input",
+		message:"What department does the product come from?",
+		name:"department_name"
+	},{
+		type:"input",
+		message:"What is the price of the product? $",
+		name:"price"
+	},{
+		type:"input",
+		message:"How many are you adding to your inventory?",
+		name:"stock_quantity"
+	}];
+
+	inquirer.prompt(productQues).then(addProduct);
+}
+
+function addProduct(res) {
+	// console.log(res);
+
+	connection.query("INSERT INTO products SET ?", res,
+    function(err, res) {
+    	if (err) throw err;
+      // console.log(res.affectedRows + " product inserted!\n");
+      console.log("Product added");
+    }
+  );
 }
