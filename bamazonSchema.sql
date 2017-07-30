@@ -8,37 +8,48 @@ CREATE TABLE products (
     department_name VARCHAR(50) NOT NULL,
     price DECIMAL(11,2) NOT NULL,
     stock_quantity INTEGER(11) NOT NULL,
+    product_sales DECIMAL(11,2) DEFAULT 0,
     PRIMARY KEY(item_id)
 );
 
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("bone club replica","Rainbow",7.75,26);
+	VALUES("Bone Club Replica","Rainbow",7.75,26);
     
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("football patch","Rainbow",1,30);
+	VALUES("Football Patch","Rainbow",1,30);
     
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("shy mask","Rainbow",5,21);
+	VALUES("Shy Mask","Rainbow",5,21);
     
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("wand replica","Rainbow",12,23);
+	VALUES("Wand Replica","Rainbow",12,23);
     
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("notebook","Rainbow",3,8);
+	VALUES("Pocket Notebook","Rainbow",3,8);
     
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("umbrella","Rainbow",6,13);
+	VALUES("Striped Umbrella","Rainbow",6,13);
     
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("dragon plush","Rainbow",5,14);
+	VALUES("Dragon Plush","Rainbow",5,14);
     
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("snake charm","Rainbow",10,10);
+	VALUES("Snake Charm","Rainbow",10,10);
     
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("goggles","Rainbow",8,20);
+	VALUES("Goggles","Rainbow",8,20);
     
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("hair tie","Rainbow",2,15);
+	VALUES("Hair Tie","Rainbow",2,15);
     
 SELECT * FROM products;
+
+CREATE TABLE departments (
+	department_id INTEGER(11) AUTO_INCREMENT NOT NULL,
+    department_name VARCHAR(50) NOT NULL,
+    over_head_costs INTEGER(11) NOT NULL,
+    PRIMARY KEY(department_id)
+);
+
+INSERT INTO departments(department_name,over_head_costs)
+	VALUES("Rainbow",10000);

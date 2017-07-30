@@ -67,8 +67,19 @@ function makePurchase (res) {
 			}
 
 			inStock-=quantityReq;
-			// console.log(inStock);
+			console.log(inStock);
 			productList[i].stock_quantity = inStock;
+
+			// for (var j = 0; j<quantityReq; j++){
+			// 	// console.log(productList[i].price);
+			// 	productList[i].product_sales += productList[i].price;
+			// 	// console.log(productList[i].product_sales);
+			// }
+
+			productList[i].product_sales += (productList[i].price * quantityReq);
+
+			console.log(productList[i].product_sales);
+
 			console.log("Purchase Successful");
 			// console.log(productList[i]);
 			return updateStockQuantity(productList[i]);
@@ -80,7 +91,8 @@ function updateStockQuantity(item) {
 
 	connection.query("UPDATE products SET ? WHERE ?",
 	[{
-		stock_quantity: item.stock_quantity
+		stock_quantity: item.stock_quantity,
+		product_sales: item.product_sales
     },{
         item_id: item.item_id
     }], 
