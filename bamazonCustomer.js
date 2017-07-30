@@ -70,6 +70,7 @@ function makePurchase (res) {
 			// Can't buy more than is in stock
 			if(quantityReq > inStock) {
 				console.log("Insufficient quantity!\n");
+				return;
 			}
 
 			inStock-=quantityReq;
