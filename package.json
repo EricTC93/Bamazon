@@ -19,6 +19,7 @@
   "homepage": "https://github.com/YETC7/Bamazon#readme",
   "dependencies": {
     "inquirer": "^3.2.1",
-    "mysql": "^2.14.0"
+    "mysql": "^2.14.0",
+    "table": "^4.0.1"
   }
 }

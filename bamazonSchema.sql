@@ -53,3 +53,5 @@ CREATE TABLE departments (
 
 INSERT INTO departments(department_name,over_head_costs)
 	VALUES("Rainbow",10000);
+    
+SELECT * FROM departments;
