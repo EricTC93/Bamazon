@@ -1,6 +1,9 @@
+// Dependencies
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+var accounting = require("accounting-js");
 
+// Mysql Connection
 var connection = mysql.createConnection({
 	host: "localhost",
 	port: 3306,
@@ -15,7 +18,7 @@ var commandList = {
 	type:"list",
 	message:"What would like to do?",
 	choices:["View Products for Sale","View Low Inventory","Add to Inventory","Add New Product"],
-	name:"commnad"
+	name:"command"
 }
 
 var productList = [];
@@ -23,10 +26,10 @@ var productIds = [];
 
 connection.connect(function(err) {
 	if (err) throw err;
-	console.log("connected as id " + connection.threadId);
 	getInventory();
 });
 
+// Retrieves products from database
 function getInventory() {
 	connection.query("SELECT * FROM products", function(err, res) {
 		if (err) throw err;
@@ -36,7 +39,7 @@ function getInventory() {
 }
 
 function selectCommand(res) {
-	switch(res.commnad) {
+	switch(res.command) {
 		case "View Products for Sale":
 			return listProducts();
 			break;
@@ -59,6 +62,7 @@ function selectCommand(res) {
 	}
 }
 
+// Displays all products to the user
 function listProducts() {
 	connection.query("SELECT * FROM products", function(err, res) {
 		if (err) throw err;
@@ -70,15 +74,17 @@ function listProducts() {
 			console.log("Id:" + productList[i].item_id +
 				" " + productList[i].product_name + 
 				" from " + productList[i].department_name + "\n");
-			console.log("     $" + productList[i].price + 
+			console.log("     " + accounting.formatMoney(productList[i].price) + 
 				"  " + productList[i].stock_quantity + " left\n" + 
 				"-----------------------------------");
 		}
 
-		return;
+		console.log("");
+	
 	});
 }
 
+// Displays all products to the user that have 5 or less in their inventory
 function listLowInventory() {
 	connection.query("SELECT * FROM products", function(err, res) {
 		if (err) throw err;
@@ -92,17 +98,19 @@ function listLowInventory() {
 				console.log("Id:" + productList[i].item_id +
 					" " + productList[i].product_name + 
 					" from " + productList[i].department_name + "\n");
-				console.log("     $" + productList[i].price + 
+				console.log("     " + accounting.formatMoney(productList[i].price) + 
 					"  " + productList[i].stock_quantity + " left\n" + 
 					"-----------------------------------");
 			}
 
 		}
 
-		return;
+		console.log("");
+	
 	});
 }
 
+// Selects which product the user wants to add inventory to
 function inventoryToAdd() {
 
 	for(var i = 0; i<productList.length; i++) {
@@ -123,7 +131,7 @@ function inventoryToAdd() {
 	inquirer.prompt(managerQues).then(addInventory);
 }
 
-
+// Adds inventory to the stock
 function addInventory(res) {
 	for(var i = 0; i<productList.length; i++) {
 		if(res.productSelected == productList[i].item_id) {
@@ -133,13 +141,14 @@ function addInventory(res) {
 			inStock+=quantityAdd;
 
 			productList[i].stock_quantity = inStock;
-			console.log("Iventory Change Successful");
+			console.log("Inventory Change Successful");
 
 			return updateStockQuantity(productList[i]);
 		}
 	}
 }
 
+// Updates the stock quantity
 function updateStockQuantity(item) {
 
 	connection.query("UPDATE products SET ? WHERE ?",
@@ -151,12 +160,11 @@ function updateStockQuantity(item) {
 
     function(err) {
     	if (err) throw err;
-    	console.log("Stock Updated");
+    	console.log("Stock Updated\n");	
     });
-
-    return;
 }
 
+// Creates product from user input
 function createProduct() {
 	var productQues = [{
 		type:"input",
@@ -176,17 +184,17 @@ function createProduct() {
 		name:"stock_quantity"
 	}];
 
-	inquirer.prompt(productQues).then(addProduct);
+	return inquirer.prompt(productQues).then(addProduct);
 }
 
+// Adds product to the database
 function addProduct(res) {
-	// console.log(res);
 
 	connection.query("INSERT INTO products SET ?", res,
-    function(err, res) {
-    	if (err) throw err;
-      // console.log(res.affectedRows + " product inserted!\n");
-      console.log("Product added");
-    }
-  );
+	    function(err, res) {
+	    	if (err) throw err;
+
+	    	console.log("Product added\n");
+	    }
+	);
 }

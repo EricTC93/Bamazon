@@ -16,33 +16,37 @@ INSERT INTO products (product_name,department_name,price,stock_quantity)
 	VALUES("Bone Club Replica","Rainbow",7.75,26);
     
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("Football Patch","Rainbow",1,30);
+	VALUES("Football Patch","Rainbow",1.15,30);
     
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("Shy Mask","Rainbow",5,21);
+	VALUES("Shy Mask","Rainbow",5.14,21);
     
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("Wand Replica","Rainbow",12,23);
+	VALUES("Wand Replica","Rainbow",12.99,23);
     
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("Pocket Notebook","Rainbow",3,8);
+	VALUES("Pocket Notebook","Rainbow",3.00,8);
     
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("Striped Umbrella","Rainbow",6,13);
+	VALUES("Striped Umbrella","Rainbow",6.25,13);
     
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("Dragon Plush","Rainbow",5,14);
+	VALUES("Dragon Plush","Rainbow",5.95,14);
     
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("Snake Charm","Rainbow",10,10);
+	VALUES("Snake Charm","Rainbow",10.10,10);
     
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("Goggles","Rainbow",8,20);
+	VALUES("Goggles","Rainbow",8.40,20);
     
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-	VALUES("Hair Tie","Rainbow",2,15);
+	VALUES("Hair Tie","Rainbow",2.15,15);
+    
+INSERT INTO products (product_name,department_name,price,stock_quantity)
+	VALUES("Cellphone Cover","Prism",10.60,70);
     
 SELECT * FROM products;
+
 
 CREATE TABLE departments (
 	department_id INTEGER(11) AUTO_INCREMENT NOT NULL,
@@ -52,6 +56,9 @@ CREATE TABLE departments (
 );
 
 INSERT INTO departments(department_name,over_head_costs)
-	VALUES("Rainbow",10000);
+	VALUES("Rainbow",500);
+    
+INSERT INTO departments(department_name,over_head_costs)
+	VALUES("Prism",200);
     
 SELECT * FROM departments;

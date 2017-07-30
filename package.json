@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/YETC7/Bamazon#readme",
   "dependencies": {
+    "accounting-js": "^1.1.1",
     "inquirer": "^3.2.1",
     "mysql": "^2.14.0",
     "table": "^4.0.1"

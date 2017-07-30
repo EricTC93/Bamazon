@@ -1,17 +1,10 @@
+// Dependencies
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+var accounting = require("accounting-js");
 var table = require("table");
- 
-// var data = [
-//     ['0A', '0B', '0C'],
-//     ['1A', '1B', '1C'],
-//     ['2A', '2B', '2C']
-// ];
 
-// var output = table.table(data);
-
-// console.log(output);
-
+// Mysql Connection
 var connection = mysql.createConnection({
 	host: "localhost",
 	port: 3306,
@@ -31,31 +24,29 @@ var commandList = {
 
 var productList = [];
 var departmentList = [];
-// var productIds = [];
 
 connection.connect(function(err) {
 	if (err) throw err;
-	console.log("connected as id " + connection.threadId);
 	return getInventory();
 });
 
+// Retrieves products from database
 function getInventory() {
 	connection.query("SELECT * FROM products", function(err, res) {
 		if (err) throw err;
 		productList = res;
-		// console.log(productList);
+
 		return getDepartments();
 	});
 }
 
+// Retrieves departments from database
 function getDepartments() {
 	connection.query("SELECT * FROM departments", function(err, res) {
 		if (err) throw err;
 		departmentList = res;
-		// console.log(departmentList);
+
 		return inquirer.prompt(commandList).then(selectCommand);
-		// console.log(caculateSales(departmentList[0]));
-		// console.log(calculateProfit(departmentList[0],15000));
 	});
 }
 
@@ -75,8 +66,10 @@ function selectCommand(res) {
 	}
 }
 
+// Table that show the total sales by each department
 function showSalesByDept() {
 
+	// Table head
 	var data = [
 		[
 			"department_id",
@@ -87,6 +80,7 @@ function showSalesByDept() {
 		]
 	];
 
+	// Creates table
 	for(var i = 0; i<departmentList.length; i++) {
 
 		var dept = departmentList[i];
@@ -96,9 +90,9 @@ function showSalesByDept() {
 		var row = [
 			dept.department_id,
 			dept.department_name,
-			dept.over_head_costs,
-			productSales,
-			profit
+			accounting.formatMoney(dept.over_head_costs),
+			accounting.formatMoney(productSales),
+			accounting.formatMoney(profit)
 		];
 
 		data.push(row);
@@ -107,8 +101,10 @@ function showSalesByDept() {
 	var output = table.table(data);
 
 	console.log(output);
+	
 }
 
+// Calculates product sales for every product from a department
 function caculateSales(dept) {
 	var sales = 0;
 
@@ -121,10 +117,12 @@ function caculateSales(dept) {
 	return sales;
 }
 
+// Calculates profit for a department based on sales and over head costs
 function calculateProfit(dept,sales) {
 	return sales - dept.over_head_costs;
 }
 
+// Creates a new department based on user input
 function createDepartment() {
 	var departmentQues = [{
 		type:"input",
@@ -132,21 +130,21 @@ function createDepartment() {
 		name:"department_name"
 	},{
 		type:"input",
-		message:"What's the total over head costs for the department?",
+		message:"What's the total over head costs for the department? $",
 		name:"over_head_costs"
 	}];
 
 	inquirer.prompt(departmentQues).then(addDepartment);
 }
 
+// Adds new department to the database
 function addDepartment(res) {
-	// console.log(res);
 
 	connection.query("INSERT INTO departments SET ?", res,
-    function(err, res) {
-    	if (err) throw err;
-    	// console.log(res.affectedRows + " product inserted!\n");
-    	console.log("Department added");
-    }
-  );
+	    function(err, res) {
+	    	if (err) throw err;
+
+	    	console.log("Department added\n");
+	    }
+  	);
 }
