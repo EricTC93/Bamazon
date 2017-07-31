@@ -3,64 +3,63 @@ An Amazon-like client that uses MySQL and Node.js
 
 ## bamazonCustomer.js
 
-> Shows the product list and asks the user what product they want to buy
+
 ![customer-page](/images/customer-page.PNG)
+> Shows the product list and asks the user what product they want to buy
 
 
-> User makes a purchase
 ![customer-purchase](/images/customer-purchase.PNG)
+> User makes a purchase
 
 
-> Product list updates after purchase
 ![customer-page-update](/images/customer-page-update.PNG)
+> Product list updates after purchase
 
 
-> Informs the user if insufficient stock
 ![customer-page-insufficient](/images/customer-page-insufficient.PNG)
+> Informs the user if insufficient stock
 
 
 ## bamazonManager.js
 
-> Manager commands
 ![manager-page](/images/manager-page.PNG)
+> Manager commands
 
 
-> Shows low inventory
 ![manager-low](/images/manager-low.PNG)
+> Shows low inventory
 
 
-> Let's user add to ivnetory
 ![manager-add](/images/manager-add.PNG)
+> Let's user add to ivnetory
 
 
-> Shows all products
 ![manager-view](/images/manager-view.PNG)
+> Shows all products
 
 
-> Let's user add new product
 ![manager-new](/images/manager-new.PNG)
+> Let's user add new product
 
 
-
-> Page updates
 ![manager-update](/images/manager-update.PNG)
-
+> Page updates
 
 
 ## bamazonSupervisor.js
 
-> Superviser page
 ![superviser-page](/images/superviser-page.PNG)
+> Superviser page
 
 
-> Displays table for product sales by dept
 ![superviser-view](/images/superviser-view.PNG)
+> Displays table for product sales by dept
 
 
-> User can add a new department
 ![superviser-new](/images/superviser-new.PNG)
+> User can add a new department
 
 
-> Table updates
 ![superviser-update](/images/superviser-update.PNG)
+> Table updates
 
